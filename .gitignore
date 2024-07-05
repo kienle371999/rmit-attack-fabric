@@ -1,0 +1,13 @@
+# Chaincode app
+app/dist
+app/node_modules
+
+# Chaincode
+chaincode/dist
+chaincode/node_modules
+
+# Network logs
+network-log/logs
+
+# Vscode
+.vscode
