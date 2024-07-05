@@ -11,3 +11,6 @@ network-log/logs
 
 # Vscode
 .vscode
+
+# Bin
+bin

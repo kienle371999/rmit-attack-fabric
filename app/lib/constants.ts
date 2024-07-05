@@ -10,7 +10,7 @@ interface OrgInfo {
 }
 
 const channelName = 'mychannel';
-const chaincodeName = 'packet';
+const chaincodeName = 'log';
 
 const org1CryptoPath = path.resolve(
   __dirname,

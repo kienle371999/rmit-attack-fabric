@@ -8,7 +8,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "service": "concurrently \"ts-node ./src/server.ts\" \"ts-node ./src/create-packet.ts\""
+    "service": "concurrently \"ts-node ./src/server.ts\" \"ts-node ./src/create-log.ts\""
   },
   "engineStrict": true,
   "author": "Hyperledger",
