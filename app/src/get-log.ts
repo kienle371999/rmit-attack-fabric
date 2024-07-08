@@ -4,7 +4,6 @@ import { LogDto } from '../lib/log-dto';
 
 function reorderLogKeys(log: any): LogDto {
   const keys = [
-    'id',
     'timestamp',
     'message',
     'src',

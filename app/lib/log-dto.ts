@@ -1,5 +1,4 @@
 export interface LogDto {
-  id: string;
   timestamp: string;
   message: string;
   sourceAddress: string;

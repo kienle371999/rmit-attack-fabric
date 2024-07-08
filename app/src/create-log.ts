@@ -12,7 +12,7 @@ async function getLogs(): Promise<LogDto[]> {
     '..',
     '..',
     'snort-log',
-    'log.csv',
+    'alert.csv',
   );
 
   const isLogDir = fs.existsSync(logFileDir);
@@ -22,7 +22,6 @@ async function getLogs(): Promise<LogDto[]> {
 
   const logs: LogDto[] = [];
   const headers = [
-    'id',
     'timestamp',
     'message',
     'src',

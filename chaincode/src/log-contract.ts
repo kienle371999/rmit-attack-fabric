@@ -2,7 +2,6 @@ import { Context, Contract } from 'fabric-contract-api';
 import { Iterators } from 'fabric-shim';
 
 export interface ILogContract {
-  id: string;
   timestamp: string;
   message: string;
   sourceAddress: string;
@@ -21,13 +20,13 @@ export class LogContract extends Contract {
     const logs = JSON.parse(byteLogs.toString()) as ILogContract[];
 
     for (const log of logs) {
-      const isIncludedLog = await this.isIncludedLog(ctx, log.id);
+      const isIncludedLog = await this.isIncludedLog(ctx, log.timestamp);
       if (isIncludedLog) {
         console.error('This logId is found on the ledger');
         continue;
       }
 
-      await ctx.stub.putState(log.id, Buffer.from(JSON.stringify(log)));
+      await ctx.stub.putState(log.timestamp, Buffer.from(JSON.stringify(log)));
     }
 
     console.log('Including logs on the ledger is complete');
