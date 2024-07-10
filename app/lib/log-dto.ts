@@ -1,10 +1,10 @@
 export interface LogDto {
   timestamp: string;
   message: string;
-  sourceAddress: string;
-  sourcePort: string;
-  destinationAddress: string;
-  destinationPort: string;
+  srcAddress: string;
+  srcPort: string;
+  dstAddress: string;
+  dstPort: string;
 }
 
 export interface LogResponseDto {

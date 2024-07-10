@@ -24,9 +24,9 @@ async function getLogs(): Promise<LogDto[]> {
   const headers = [
     'timestamp',
     'message',
-    'src',
+    'srcAddress',
     'srcPort',
-    'dst',
+    'dstAddress',
     'dstPort',
   ];
   const logParse = fs

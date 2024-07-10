@@ -6,15 +6,16 @@ const app = express();
 const port = 8080;
 
 app.get('/logs', async (req, res) => {
-  const { organization, srcAddress, dstAddress, srcPort, startTime, endTime } =
+  const { organization, srcAddress, srcPort, dstAddress, dstPort, startTime, endTime } =
     req.query;
 
   try {
     const logs: LogDto[] = await getAllLogs(organization as string);
     const pQueries = [
-      srcAddress && ((log: LogDto) => log.sourceAddress === srcAddress),
-      dstAddress && ((log: LogDto) => log.destinationAddress === dstAddress),
-      srcPort && ((log: LogDto) => log.sourcePort === srcPort),
+      srcAddress && ((log: LogDto) => log.srcAddress === srcAddress),
+      srcPort && ((log: LogDto) => log.srcPort === srcPort),
+      dstAddress && ((log: LogDto) => log.dstAddress === dstAddress),
+      dstPort && ((log: LogDto) => log.dstPort === dstPort),
       startTime &&
         ((log: LogDto) =>
           new Date(log.timestamp) >= new Date(startTime as string)),

@@ -6,9 +6,9 @@ function reorderLogKeys(log: any): LogDto {
   const keys = [
     'timestamp',
     'message',
-    'src',
+    'srcAddress',
     'srcPort',
-    'dst',
+    'dstAddress',
     'dstPort',
   ];
   const newLog = keys.reduce((res, key) => {
