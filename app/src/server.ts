@@ -1,13 +1,23 @@
-import express, { query } from 'express';
+import express from 'express';
 import { getAllLogs } from './get-log';
 import { LogResponseDto, LogDto } from '../lib/log-dto';
+import { createRules } from './create-rule';
 
 const app = express();
+app.use(express.json());
+
 const port = 8080;
 
 app.get('/logs', async (req, res) => {
-  const { organization, srcAddress, srcPort, dstAddress, dstPort, startTime, endTime } =
-    req.query;
+  const {
+    organization,
+    srcAddress,
+    srcPort,
+    dstAddress,
+    dstPort,
+    startTime,
+    endTime,
+  } = req.query;
 
   try {
     const logs: LogDto[] = await getAllLogs(organization as string);
@@ -31,6 +41,19 @@ app.get('/logs', async (req, res) => {
     } as LogResponseDto;
 
     res.status(200).send(result);
+  } catch (error: any) {
+    res.status(500).send({
+      error: error?.message,
+    });
+  }
+});
+
+app.post('/iptables-rules', async (req, res) => {
+  const { organization } = req.body;
+
+  try {
+    const result = await createRules(organization as string);
+    res.status(200).send({ result });
   } catch (error: any) {
     res.status(500).send({
       error: error?.message,

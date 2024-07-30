@@ -5,6 +5,38 @@ import * as path from 'path';
 import { parse } from 'csv-parse';
 import { chaincodeName, channelName } from '../lib/constants';
 import { LogDto } from '../lib/log-dto';
+import { spawnSync } from 'child_process';
+
+function getMacAddress(ip: string) {
+  // Get all ARP processes
+  const processes = spawnSync('arp', ['-n'], {
+    encoding: 'utf-8',
+  });
+
+  if (processes.stderr) {
+    throw new Error(processes.stderr);
+  }
+
+  // Get the table row containing the specific IP
+  const process = spawnSync('grep', [ip], {
+    input: processes.stdout,
+    encoding: 'utf-8',
+  });
+  if (process.stderr) {
+    throw new Error(process.stderr);
+  }
+
+  // Get the mac address
+  const macAddress = spawnSync('awk', ['{print $3}'], {
+    input: process.stdout,
+    encoding: 'utf-8',
+  });
+  if (macAddress.stderr) {
+    throw new Error(macAddress.stderr);
+  }
+
+  return macAddress.stdout.trim();
+}
 
 async function getLogs(): Promise<LogDto[]> {
   const logFileDir = path.resolve(
@@ -23,6 +55,7 @@ async function getLogs(): Promise<LogDto[]> {
   const logs: LogDto[] = [];
   const headers = [
     'timestamp',
+    'protocol',
     'message',
     'srcAddress',
     'srcPort',
@@ -34,9 +67,11 @@ async function getLogs(): Promise<LogDto[]> {
     .pipe(parse({ delimiter: ',', columns: headers }));
 
   for await (const log of logParse) {
+    if (!log.protocol) continue;
     const uLog = {
       ...log,
       timestamp: log.timestamp.trim(),
+      srcMacAddress: getMacAddress(log.srcAddress),
     } as LogDto;
 
     logs.push(uLog);

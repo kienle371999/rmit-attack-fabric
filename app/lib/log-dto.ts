@@ -1,6 +1,8 @@
 export interface LogDto {
   timestamp: string;
+  protocol: string;
   message: string;
+  srcMacAddress: string;
   srcAddress: string;
   srcPort: string;
   dstAddress: string;

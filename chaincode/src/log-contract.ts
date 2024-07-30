@@ -3,11 +3,13 @@ import { Iterators } from 'fabric-shim';
 
 export interface ILogContract {
   timestamp: string;
+  protocol: string;
   message: string;
-  sourceAddress: string;
-  sourcePort: string;
-  destinationAddress: string;
-  destinationPort: string;
+  srcMacAddress: string;
+  srcAddress: string;
+  srcPort: string;
+  dstAddress: string;
+  dstPort: string;
 }
 
 export class LogContract extends Contract {
