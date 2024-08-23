@@ -1,7 +1,7 @@
 import express from 'express';
 import { getAllLogs } from './get-log';
 import { LogResponseDto, LogDto } from '../lib/log-dto';
-import { createRules } from './create-rule';
+import { createRule, createRules, deleteRule } from './rules';
 
 const app = express();
 app.use(express.json());
@@ -52,7 +52,33 @@ app.post('/iptables-rules', async (req, res) => {
   const { organization } = req.body;
 
   try {
-    const result = await createRules(organization as string);
+    const result = await createRules(organization);
+    res.status(200).send({ result });
+  } catch (error: any) {
+    res.status(500).send({
+      error: error?.message,
+    });
+  }
+});
+
+app.post('/iptables-rule', async (req, res) => {
+  const { protocol, srcAddress, srcPort } = req.body;
+
+  try {
+    const result = await createRule(protocol, srcAddress, srcPort);
+    res.status(200).send({ result });
+  } catch (error: any) {
+    res.status(500).send({
+      error: error?.message,
+    });
+  }
+});
+
+app.delete('/iptables-rule', async (req, res) => {
+  const { protocol, srcAddress, srcPort } = req.body;
+
+  try {
+    const result = await deleteRule(protocol, srcAddress, srcPort);
     res.status(200).send({ result });
   } catch (error: any) {
     res.status(500).send({
