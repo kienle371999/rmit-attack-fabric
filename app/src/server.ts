@@ -62,10 +62,10 @@ app.post('/iptables-rules', async (req, res) => {
 });
 
 app.post('/iptables-rule', async (req, res) => {
-  const { protocol, srcAddress, srcPort } = req.body;
+  const { protocol, srcAddress, dstPort } = req.body;
 
   try {
-    const result = await createRule(protocol, srcAddress, srcPort);
+    const result = await createRule(protocol, srcAddress, dstPort);
     res.status(200).send({ result });
   } catch (error: any) {
     res.status(500).send({
@@ -75,10 +75,10 @@ app.post('/iptables-rule', async (req, res) => {
 });
 
 app.delete('/iptables-rule', async (req, res) => {
-  const { protocol, srcAddress, srcPort } = req.body;
+  const { protocol, srcAddress, dstPort } = req.body;
 
   try {
-    const result = await deleteRule(protocol, srcAddress, srcPort);
+    const result = await deleteRule(protocol, srcAddress, dstPort);
     res.status(200).send({ result });
   } catch (error: any) {
     res.status(500).send({
