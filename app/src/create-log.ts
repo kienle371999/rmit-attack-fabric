@@ -68,6 +68,10 @@ async function getLogs(): Promise<LogDto[]> {
 
   for await (const log of logParse) {
     if (!log.protocol) continue;
+
+    const tRegrex = /^(\d{2})\/(\d{2})\/(\d{2})/;
+    if (!tRegrex.test(log.timestamp)) continue;
+
     const uLog = {
       ...log,
       timestamp: log.timestamp.trim(),
