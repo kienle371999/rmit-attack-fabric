@@ -9,22 +9,14 @@ app.use(express.json());
 const port = 8080;
 
 app.get('/logs', async (req, res) => {
-  const {
-    organization,
-    srcAddress,
-    srcPort,
-    dstAddress,
-    dstPort,
-    startTime,
-    endTime,
-  } = req.query;
+  const { organization, srcAddress, srcPort, dstPort, startTime, endTime } =
+    req.query;
 
   try {
     const logs: LogDto[] = await getAllLogs(organization as string);
     const pQueries = [
       srcAddress && ((log: LogDto) => log.srcAddress === srcAddress),
       srcPort && ((log: LogDto) => log.srcPort === srcPort),
-      dstAddress && ((log: LogDto) => log.dstAddress === dstAddress),
       dstPort && ((log: LogDto) => log.dstPort === dstPort),
       startTime &&
         ((log: LogDto) =>
